@@ -29,4 +29,8 @@ namespace Snoop
 			}
 		}
 	}
+
+	public partial class BoolThreeValueEditor : BoolValueEditor
+	{
+	}
 }

@@ -6,6 +6,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace Snoop
@@ -33,6 +34,13 @@ namespace Snoop
 		}
 		private DataTemplate boolTemplate;
 
+		public DataTemplate BoolThreeStateTemplate
+		{
+			get { return this.boolThreeStateTemplate; }
+			set { this.boolThreeStateTemplate = value; }
+		}
+		private DataTemplate boolThreeStateTemplate;
+
 		public DataTemplate BrushTemplate
 		{
 			get { return this.brushTemplate; }
@@ -46,14 +54,24 @@ namespace Snoop
 			PropertyInformation property = (PropertyInformation)item;
 
 			if (property.PropertyType.IsEnum)
+			{
 				return this.EnumTemplate;
+			}
 			else if (property.PropertyType.Equals(typeof(bool)))
+			{
 				return this.BoolTemplate;
-			else if ( property.PropertyType.IsGenericType 
-				&& Nullable.GetUnderlyingType( property.PropertyType ) == typeof(bool) )
-				return this.BoolTemplate;
+			}
+			else if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == typeof(bool))
+			{
+				if (property.Target is ToggleButton && ((ToggleButton)property.Target).IsThreeState)
+					return this.BoolThreeStateTemplate;
+				else
+					return this.BoolTemplate;
+			}
 			else if (typeof(Brush).IsAssignableFrom(property.PropertyType))
+			{
 				return this.brushTemplate;
+			}
 
 			return this.StandardTemplate;
 		}
