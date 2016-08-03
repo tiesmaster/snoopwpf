@@ -6,6 +6,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace Snoop
@@ -40,22 +41,39 @@ namespace Snoop
 		}
 		private DataTemplate brushTemplate;
 
+	    private static bool IsTwoStateToggleButton(object target)
+	    {
+	        ToggleButton toggleButton = target as ToggleButton;
+	        if (toggleButton == null)
+	        {
+	            return false;
+	        }
+	        return !toggleButton.IsThreeState;
+	    }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			PropertyInformation property = (PropertyInformation)item;
 
-			if (property.PropertyType.IsEnum)
-				return this.EnumTemplate;
-			else if (property.PropertyType.Equals(typeof(bool)))
-				return this.BoolTemplate;
-			else if ( property.PropertyType.IsGenericType 
-				&& Nullable.GetUnderlyingType( property.PropertyType ) == typeof(bool) )
-				return this.BoolTemplate;
-			else if (typeof(Brush).IsAssignableFrom(property.PropertyType))
-				return this.brushTemplate;
+		    if (property.PropertyType.IsEnum)
+		    {
+		        return this.EnumTemplate;
+		    }
+		    else if (property.PropertyType.Equals(typeof (bool)))
+		    {
+		        return this.BoolTemplate;
+		    }
+		    else if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == typeof (bool))
+		    {
+		        property.IsThreeWay = !IsTwoStateToggleButton(property.Target); //Anything that's not a two state toggle button should be a 3-state checkbox.       
+		        return this.BoolTemplate;
+		    }
+            else if (typeof (Brush).IsAssignableFrom(property.PropertyType))
+            {
+                return this.brushTemplate;
+            }
 
-			return this.StandardTemplate;
+		    return this.StandardTemplate;
 		}
 	}
 }

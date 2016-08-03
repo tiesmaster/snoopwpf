@@ -95,6 +95,17 @@ namespace Snoop
 			BindingOperations.ClearAllBindings(this);
 		}
 
+        public bool IsThreeWay
+        {
+            get { return isThreeWay; }
+            set
+            {
+                isThreeWay = value;
+                this.OnPropertyChanged("IsThreeWay");
+            }
+        }
+        private bool isThreeWay = false;
+
 		public object Target
 		{
 			get { return this.target; }
