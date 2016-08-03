@@ -72,6 +72,18 @@ namespace Snoop
 			this.isRunning = true;
 		}
 
+	    private bool isThreeWay = false;
+
+	    public bool IsThreeWay
+	    {
+	        get { return isThreeWay; }
+	        set
+	        {
+	            isThreeWay = value;
+	            this.OnPropertyChanged("IsThreeWay");
+	        }
+	    }
+
 		/// <summary>
 		/// Constructor used when constructing PropertyInformation objects for an item in a collection.
 		/// In this case, we set the PropertyDescriptor for this object (in the property Property) to be null.

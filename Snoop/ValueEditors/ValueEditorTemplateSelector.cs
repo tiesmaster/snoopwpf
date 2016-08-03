@@ -63,10 +63,12 @@ namespace Snoop
 			}
 			else if (property.PropertyType.IsGenericType && Nullable.GetUnderlyingType(property.PropertyType) == typeof(bool))
 			{
-				if (property.Target is ToggleButton && ((ToggleButton)property.Target).IsThreeState)
-					return this.BoolThreeStateTemplate;
-				else
-					return this.BoolTemplate;
+                property.IsThreeWay = true;
+			    return this.BoolTemplate;
+//				if (property.Target is ToggleButton && ((ToggleButton)property.Target).IsThreeState)
+//					return this.BoolThreeStateTemplate;
+//				else
+//					return this.BoolTemplate;
 			}
 			else if (typeof(Brush).IsAssignableFrom(property.PropertyType))
 			{

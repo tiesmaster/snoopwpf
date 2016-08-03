@@ -57,6 +57,7 @@ All other rights reserved.
 							x:Name="PART_CheckBox"
 							IsChecked="{Binding Value, Mode=TwoWay}"
 							IsEnabled="{TemplateBinding IsEditable}"
+                            IsThreeState="{Binding Path=IsThreeWay}"
 							VerticalAlignment="Center"
 						/>
 						<TextBlock
